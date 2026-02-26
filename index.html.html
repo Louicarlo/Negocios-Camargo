@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Negocios Camargo</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #F5A623;
+  --gold-dark: #E8922A;
+  --gold-deep: #C97A1A;
+  --red: #C0392B;
+  --dark: #1A1208;
+  --dark2: #2C1F0A;
+  --text: #1A1208;
+  --muted: #7A6A4A;
+  --bg: #FFFBF4;
+  --white: #ffffff;
+  --card-bg: #ffffff;
+  --border: #F0E4C8;
+  --green: #25D366;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+  --radius: 16px;
+  --shadow: 0 4px 24px rgba(26,18,8,0.10);
+  --shadow-hover: 0 12px 40px rgba(26,18,8,0.18);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* ── PAGES ── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ── NAVBAR ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--dark);
+  padding: 0 32px;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  cursor: pointer;
+  user-select: none;
+}
+.nav-logo span { color: var(--white); }
+.nav-links { display: flex; gap: 8px; align-items: center; }
+.nav-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  border: none; background: none;
+}
+.nav-link:hover { color: var(--gold); background: rgba(245,166,35,0.1); }
+.nav-btn {
+  background: var(--gold);
+  color: var(--dark);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.nav-btn:hover { background: var(--gold-dark); transform: translateY(-1px); }
+
+/* ── HOME PAGE ── */
+.hero {
+  position: relative;
+  min-height: 88vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  background: var(--dark);
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(245,166,35,0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 80% at 10% 80%, rgba(192,57,43,0.15) 0%, transparent 60%),
+    linear-gradient(160deg, #1A1208 0%, #2C1F0A 50%, #1A1208 100%);
+}
+.hero-pattern {
+  position: absolute; inset: 0; opacity: 0.04;
+  background-image: radial-gradient(circle, #F5A623 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding: 40px 24px;
+  max-width: 700px;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: rgba(245,166,35,0.12);
+  border: 1px solid rgba(245,166,35,0.3);
+  padding: 5px 14px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.hero h1 span { color: var(--gold); }
+.hero-sub {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: rgba(255,255,255,0.6);
+  font-weight: 400;
+  margin-bottom: 40px;
+  line-height: 1.5;
+}
+.hero-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gold);
+  color: var(--dark);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 800;
+  padding: 16px 40px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 32px rgba(245,166,35,0.4);
+}
+.hero-btn:hover {
+  background: var(--white);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(245,166,35,0.3);
+}
+.hero-btn svg { transition: transform 0.3s; }
+.hero-btn:hover svg { transform: translateX(4px); }
+
+.hero-stats {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 40px; z-index: 2;
+  animation: fadeUp 0.8s 0.3s ease both; opacity: 0;
+}
+.hero-stat { text-align: center; }
+.hero-stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  color: var(--gold);
+  letter-spacing: 0.04em;
+}
+.hero-stat span { font-size: 0.72rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 600; }
+
+/* ── CATEGORIES PAGE ── */
+.page-header {
+  background: var(--dark);
+  padding: 48px 32px 40px;
+  text-align: center;
+}
+.page-header h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  color: var(--white);
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.page-header h2 span { color: var(--gold); }
+.page-header p { color: rgba(255,255,255,0.55); font-size: 0.95rem; font-weight: 400; }
+
+.categories-section { padding: 48px 32px; max-width: 1200px; margin: 0 auto; }
+.section-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 6px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  letter-spacing: 0.05em;
+  color: var(--text);
+  margin-bottom: 28px;
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+.cat-card {
+  background: var(--card-bg);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.cat-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.cat-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+.cat-card:hover::before { opacity: 0.06; }
+.cat-card.active { border-color: var(--gold); background: var(--gold); }
+.cat-card.active .cat-name { color: var(--dark); }
+.cat-emoji { font-size: 2.4rem; display: block; margin-bottom: 10px; position: relative; z-index: 1; }
+.cat-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text);
+  position: relative; z-index: 1;
+  letter-spacing: 0.02em;
+}
+.cat-count { font-size: 0.72rem; color: var(--muted); margin-top: 4px; position: relative; z-index: 1; }
+
+.divider { height: 1px; background: var(--border); margin: 8px 0 32px; }
+
+.businesses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+/* ── BUSINESS CARD ── */
+.biz-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.25s;
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.4s ease both;
+}
+.biz-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); border-color: var(--gold); }
+.biz-card-logo {
+  width: 100%; height: 160px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 4rem;
+  background: linear-gradient(135deg, #FFF8EC, #FFF0D4);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.biz-card-logo img { width: 100%; height: 100%; object-fit: cover; }
+.biz-card-logo .biz-logo-emoji { font-size: 4rem; }
+.biz-badge {
+  position: absolute; top: 12px; right: 12px;
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.biz-card-body { padding: 18px 20px 20px; }
+.biz-card-name { font-size: 1.05rem; font-weight: 800; margin-bottom: 6px; color: var(--text); }
+.biz-card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; margin-bottom: 14px; font-weight: 400; }
+.biz-card-footer { display: flex; align-items: center; justify-content: space-between; }
+.biz-price { font-size: 0.78rem; font-weight: 700; color: var(--gold-dark); }
+.biz-arrow {
+  width: 32px; height: 32px;
+  background: var(--dark);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.biz-card:hover .biz-arrow { background: var(--gold); color: var(--dark); }
+
+.empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+.empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
+.empty-state p { font-size: 1rem; font-weight: 500; }
+
+/* ── BUSINESS PROFILE PAGE ── */
+.profile-hero {
+  width: 100%; height: 360px;
+  background: linear-gradient(135deg, #FFF8EC, #FFF0D4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 7rem;
+  position: relative;
+  overflow: hidden;
+}
+.profile-hero img { width: 100%; height: 100%; object-fit: cover; }
+.profile-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(26,18,8,0.6) 0%, transparent 60%);
+}
+.profile-back {
+  position: absolute; top: 20px; left: 20px;
+  background: rgba(26,18,8,0.6);
+  color: var(--white);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 6px;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s;
+}
+.profile-back:hover { background: var(--gold); color: var(--dark); }
+
+.profile-content { max-width: 1100px; margin: 0 auto; padding: 36px 32px; }
+.profile-top { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 32px; flex-wrap: wrap; }
+.profile-cat-badge {
+  background: var(--gold);
+  color: var(--dark);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.profile-price-badge {
+  background: var(--border);
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.profile-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.profile-cols { display: grid; grid-template-columns: 1fr 340px; gap: 32px; }
+@media(max-width:800px){ .profile-cols { grid-template-columns: 1fr; } }
+
+.profile-section { margin-bottom: 32px; }
+.profile-section-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+}
+.profile-desc { font-size: 0.95rem; color: #5A4A2A; line-height: 1.7; font-weight: 400; }
+
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+.product-card {
+  background: linear-gradient(135deg, #FFF8EC, #FFF0D4);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 12px;
+  text-align: center;
+}
+.product-emoji { font-size: 2rem; margin-bottom: 6px; }
+.product-name { font-size: 0.78rem; font-weight: 700; color: var(--text); }
+.product-price { font-size: 0.72rem; color: var(--gold-dark); font-weight: 600; margin-top: 3px; }
+
+/* contact card */
+.contact-card {
+  background: var(--dark);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: sticky;
+  top: 80px;
+  color: var(--white);
+}
+.contact-card-logo {
+  width: 72px; height: 72px;
+  border-radius: 14px;
+  background: rgba(245,166,35,0.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 16px;
+  border: 1px solid rgba(245,166,35,0.2);
+}
+.contact-card h3 { font-family: var(--font-display); font-size: 1.4rem; letter-spacing: 0.05em; color: var(--gold); margin-bottom: 20px; }
+
+.contact-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 14px;
+  border-radius: 50px; border: none;
+  font-family: var(--font-body); font-size: 0.9rem; font-weight: 800;
+  cursor: pointer; transition: all 0.2s; margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+.contact-btn-wa { background: var(--green); color: var(--white); }
+.contact-btn-wa:hover { background: #1eb558; transform: translateY(-2px); }
+.contact-btn-tel { background: rgba(255,255,255,0.08); color: var(--white); border: 1px solid rgba(255,255,255,0.15); }
+.contact-btn-tel:hover { background: rgba(255,255,255,0.14); }
+
+.contact-info { margin-top: 20px; display: flex; flex-direction: column; gap: 12px; }
+.contact-info-row { display: flex; gap: 10px; align-items: flex-start; }
+.contact-info-icon {
+  width: 32px; height: 32px; flex-shrink: 0;
+  background: rgba(245,166,35,0.12);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+}
+.contact-info-text { font-size: 0.8rem; color: rgba(255,255,255,0.7); line-height: 1.4; }
+.contact-info-text strong { display: block; color: rgba(255,255,255,0.95); font-size: 0.82rem; margin-bottom: 1px; }
+
+.hours-grid { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; font-size: 0.75rem; margin-top: 8px; }
+.hours-day { color: rgba(255,255,255,0.5); font-weight: 600; }
+.hours-time { color: rgba(255,255,255,0.8); }
+
+/* map placeholder */
+.map-placeholder {
+  width: 100%; height: 280px;
+  background: linear-gradient(135deg, #e8e0d0, #d8cdb8);
+  border-radius: var(--radius);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--muted); gap: 8px; margin-top: 8px;
+  border: 1px solid var(--border);
+  font-size: 0.85rem; font-weight: 600;
+  overflow: hidden; position: relative;
+}
+.map-placeholder::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: 
+    linear-gradient(rgba(200,185,160,0.4) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,185,160,0.4) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.map-pin { font-size: 2.4rem; position: relative; z-index: 1; animation: bounce 1.5s infinite; }
+.map-label { position: relative; z-index: 1; font-size: 0.78rem; background: var(--white); padding: 6px 14px; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+
+/* similar businesses */
+.similar-section { background: linear-gradient(135deg, #FFF8EC, var(--bg)); padding: 48px 32px; }
+.similar-section .inner { max-width: 1100px; margin: 0 auto; }
+.similar-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; }
+.similar-scroll::-webkit-scrollbar { height: 4px; }
+.similar-scroll::-webkit-scrollbar-track { background: var(--border); border-radius: 2px; }
+.similar-scroll::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+.similar-card {
+  min-width: 220px; background: var(--card-bg);
+  border-radius: var(--radius); border: 1px solid var(--border);
+  padding: 0; overflow: hidden; cursor: pointer;
+  transition: all 0.2s; scroll-snap-align: start;
+  box-shadow: var(--shadow);
+}
+.similar-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); border-color: var(--gold); }
+.similar-card-img {
+  height: 100px; background: linear-gradient(135deg, #FFF8EC, #FFE8B8);
+  display: flex; align-items: center; justify-content: center; font-size: 2.5rem;
+}
+.similar-card-body { padding: 12px 14px; }
+.similar-card-name { font-size: 0.85rem; font-weight: 800; margin-bottom: 3px; }
+.similar-card-cat { font-size: 0.72rem; color: var(--muted); }
+
+/* ── REGISTER PAGE ── */
+.register-page { background: var(--bg); }
+.register-hero {
+  background: var(--dark);
+  padding: 60px 32px 52px;
+  text-align: center;
+}
+.register-hero h2 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3.4rem); color: var(--white); letter-spacing: 0.06em; margin-bottom: 10px; }
+.register-hero h2 span { color: var(--gold); }
+.register-hero p { color: rgba(255,255,255,0.55); font-size: 0.95rem; max-width: 500px; margin: 0 auto; }
+
+.register-body { max-width: 680px; margin: 0 auto; padding: 48px 32px; }
+
+.trust-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 40px; }
+.trust-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px 14px; text-align: center;
+}
+.trust-card .t-icon { font-size: 1.6rem; margin-bottom: 6px; }
+.trust-card p { font-size: 0.75rem; font-weight: 700; color: var(--text); line-height: 1.3; }
+
+.form-card { background: var(--white); border-radius: var(--radius); padding: 36px; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.form-card h3 { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 6px; }
+.form-card p { font-size: 0.85rem; color: var(--muted); margin-bottom: 28px; }
+
+.form-group { margin-bottom: 18px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media(max-width:560px){ .form-row { grid-template-columns: 1fr; } }
+label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: 0.04em; text-transform: uppercase; }
+label span { color: var(--red); }
+input, select, textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--bg);
+  transition: border-color 0.2s;
+  outline: none;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--gold); background: var(--white); }
+textarea { resize: vertical; min-height: 100px; }
+select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237A6A4A' stroke-width='2' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
+
+.submit-btn {
+  width: 100%; padding: 16px;
+  background: var(--gold);
+  color: var(--dark);
+  border: none; border-radius: 50px;
+  font-family: var(--font-body); font-size: 1rem; font-weight: 800;
+  cursor: pointer; transition: all 0.2s; margin-top: 8px;
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.submit-btn:hover { background: var(--gold-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(245,166,35,0.3); }
+
+.alt-contact { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.alt-btn {
+  padding: 12px;
+  border-radius: 50px; border: 2px solid var(--border);
+  font-family: var(--font-body); font-size: 0.82rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; background: transparent;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  letter-spacing: 0.04em;
+}
+.alt-btn-wa { border-color: var(--green); color: var(--green); }
+.alt-btn-wa:hover { background: var(--green); color: var(--white); }
+.alt-btn-mail { border-color: var(--gold-dark); color: var(--gold-dark); }
+.alt-btn-mail:hover { background: var(--gold-dark); color: var(--white); }
+
+/* success state */
+.form-success {
+  display: none; text-align: center; padding: 40px 20px;
+}
+.form-success .check { font-size: 4rem; margin-bottom: 16px; }
+.form-success h4 { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.05em; color: var(--text); margin-bottom: 8px; }
+.form-success p { color: var(--muted); font-size: 0.9rem; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--dark2);
+  padding: 40px 32px 24px;
+  color: rgba(255,255,255,0.55);
+}
+.footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+@media(max-width:600px){ .footer-inner { grid-template-columns: 1fr; gap: 24px; } }
+.footer-logo { font-family: var(--font-display); font-size: 1.8rem; color: var(--gold); letter-spacing: 0.08em; margin-bottom: 8px; }
+.footer-logo span { color: var(--white); }
+.footer-tagline { font-size: 0.8rem; line-height: 1.5; }
+.footer-col h4 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: rgba(255,255,255,0.8); margin-bottom: 12px; }
+.footer-links { display: flex; flex-direction: column; gap: 8px; }
+.footer-link { font-size: 0.82rem; cursor: pointer; transition: color 0.2s; }
+.footer-link:hover { color: var(--gold); }
+.footer-social { display: flex; gap: 10px; margin-top: 4px; }
+.social-btn {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; cursor: pointer; transition: all 0.2s;
+  color: rgba(255,255,255,0.7);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.social-btn:hover { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 20px; text-align: center; font-size: 0.75rem; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav { padding: 0 16px; }
+  .nav-links .nav-link { display: none; }
+  .categories-section { padding: 32px 16px; }
+  .profile-content { padding: 24px 16px; }
+  .register-body { padding: 32px 16px; }
+  .trust-row { grid-template-columns: 1fr; }
+  .hero-stats { gap: 24px; }
+  footer { padding: 32px 16px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">Negocios<span>Camargo</span></div>
+  <div class="nav-links">
+    <button class="nav-link" onclick="showPage('home')">Inicio</button>
+    <button class="nav-link" onclick="showPage('categories')">Categorías</button>
+    <button class="nav-link" onclick="showPage('categories')">Explorar</button>
+    <button class="nav-btn" onclick="showPage('register')">Registra tu Negocio</button>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 1: HOME
+═══════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-pattern"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow">📍 Cd. Camargo, Chihuahua</span>
+      <h1>Negocios<br><span>Camargo</span></h1>
+      <p class="hero-sub">Descubre los mejores restaurantes, hoteles, tiendas y más.<br>Todo lo que Camargo tiene para ti en un solo lugar.</p>
+      <button class="hero-btn" onclick="showPage('categories')">
+        Explorar negocios
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>50+</strong><span>Negocios</span></div>
+      <div class="hero-stat"><strong>6</strong><span>Categorías</span></div>
+      <div class="hero-stat"><strong>80K</strong><span>Turistas/año</span></div>
+    </div>
+  </section>
+
+  <!-- quick categories strip -->
+  <section style="background:var(--dark2); padding:28px 32px;">
+    <div style="max-width:1100px; margin:0 auto;">
+      <p style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">Explorar por categoría</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button onclick="filterAndGo('Restaurantes')" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--white);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--white)'">🍽 Restaurantes</button>
+        <button onclick="filterAndGo('Hospedaje')" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--white);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--white)'">🏨 Hospedaje</button>
+        <button onclick="filterAndGo('Comida')" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--white);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--white)'">🥐 Comida</button>
+        <button onclick="filterAndGo('Talleres')" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--white);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--white)'">🔧 Talleres</button>
+        <button onclick="filterAndGo('Ferretería')" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--white);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--white)'">🔩 Ferretería</button>
+        <button onclick="filterAndGo('Agricultura')" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--white);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--white)'">🌾 Agricultura</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="home-footer"></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 2: CATEGORIES / DIRECTORY
+═══════════════════════════════════════════ -->
+<div class="page" id="page-categories">
+  <div class="page-header">
+    <h2>Explora <span>Categorías</span></h2>
+    <p>Selecciona una categoría para ver todos los negocios disponibles</p>
+  </div>
+
+  <section class="categories-section">
+    <p class="section-label">Directorio</p>
+    <h3 class="section-title">¿Qué estás buscando?</h3>
+    <div class="cat-grid" id="cat-grid"></div>
+
+    <div class="divider" style="margin-top:40px;"></div>
+
+    <div id="biz-section" style="display:none;">
+      <p class="section-label" id="biz-section-label">Negocios</p>
+      <h3 class="section-title" id="biz-section-title">Todos los negocios</h3>
+      <div class="businesses-grid" id="biz-grid"></div>
+    </div>
+  </section>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 3: BUSINESS PROFILE
+═══════════════════════════════════════════ -->
+<div class="page" id="page-profile">
+  <div id="profile-content"></div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     PAGE 4: REGISTER
+═══════════════════════════════════════════ -->
+<div class="page" id="page-register">
+  <div class="register-hero">
+    <h2>Registra tu <span>Negocio</span></h2>
+    <p>Llena el formulario y nos ponemos en contacto contigo para explicarte cómo funciona.</p>
+  </div>
+
+  <div class="register-body">
+    <div class="trust-row">
+      <div class="trust-card"><div class="t-icon">📍</div><p>Presencia local en Camargo y Chihuahua</p></div>
+      <div class="trust-card"><div class="t-icon">📱</div><p>FB, Instagram y TikTok incluidos</p></div>
+      <div class="trust-card"><div class="t-icon">📊</div><p>Reportes mensuales de resultados</p></div>
+    </div>
+
+    <div class="form-card">
+      <h3>Cuéntanos de tu negocio</h3>
+      <p>Nos pondremos en contacto contigo muy pronto para darte todos los detalles.</p>
+
+      <div id="form-fields">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre completo <span>*</span></label>
+            <input type="text" placeholder="Tu nombre">
+          </div>
+          <div class="form-group">
+            <label>Nombre del negocio <span>*</span></label>
+            <input type="text" placeholder="Ej. Tacos El Norteño">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Categoría <span>*</span></label>
+            <select>
+              <option value="">Selecciona una categoría</option>
+              <option>Restaurantes</option>
+              <option>Hospedaje</option>
+              <option>Comida</option>
+              <option>Talleres</option>
+              <option>Ferretería</option>
+              <option>Agricultura</option>
+              <option>Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Ciudad <span>*</span></label>
+            <select>
+              <option value="">Selecciona ciudad</option>
+              <option>Cd. Camargo</option>
+              <option>Cd. Chihuahua</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>WhatsApp <span>*</span></label>
+            <input type="tel" placeholder="+52 625 000 0000">
+          </div>
+          <div class="form-group">
+            <label>Correo electrónico</label>
+            <input type="email" placeholder="correo@ejemplo.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>¿Cómo nos conociste?</label>
+          <select>
+            <option value="">Selecciona una opción</option>
+            <option>Redes Sociales</option>
+            <option>Recomendación</option>
+            <option>Google</option>
+            <option>Evento local</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Cuéntanos sobre tu negocio</label>
+          <textarea placeholder="¿Qué ofreces? ¿Cuánto tiempo llevas operando? Cualquier detalle que quieras compartir..."></textarea>
+        </div>
+        <button class="submit-btn" onclick="submitForm()">Enviar solicitud</button>
+        <div class="alt-contact">
+          <button class="alt-btn alt-btn-wa">💬 WhatsApp</button>
+          <button class="alt-btn alt-btn-mail">✉️ Correo</button>
+        </div>
+      </div>
+
+      <div class="form-success" id="form-success">
+        <div class="check">✅</div>
+        <h4>¡Solicitud enviada!</h4>
+        <p>Nos pondremos en contacto contigo en menos de 24 horas.<br>¡Bienvenido a Negocios Camargo!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER (shared)
+═══════════════════════════════════════════ -->
+<footer id="main-footer" style="display:none;">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Negocios<span>Camargo</span></div>
+      <p class="footer-tagline">El directorio digital de Camargo y Chihuahua. Encuentra todo lo que nuestra ciudad tiene para ofrecerte.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navegación</h4>
+      <div class="footer-links">
+        <span class="footer-link" onclick="showPage('home')">Inicio</span>
+        <span class="footer-link" onclick="showPage('categories')">Categorías</span>
+        <span class="footer-link" onclick="showPage('categories')">Explorar negocios</span>
+        <span class="footer-link" onclick="showPage('register')">Registra tu negocio</span>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Síguenos</h4>
+      <div class="footer-social">
+        <div class="social-btn">f</div>
+        <div class="social-btn">📸</div>
+        <div class="social-btn">▶</div>
+      </div>
+      <div style="margin-top:16px;">
+        <h4>Contacto</h4>
+        <p style="font-size:0.8rem;margin-top:6px;">📍 Cd. Camargo, Chihuahua</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Negocios Camargo — Todos los derechos reservados</div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════
+     DATA & LOGIC
+═══════════════════════════════════════════ -->
+<script>
+// ── DATA ──────────────────────────────────────
+const categories = [
+  { id: 'Restaurantes', emoji: '🍽', label: 'Restaurantes', count: 3 },
+  { id: 'Hospedaje',    emoji: '🏨', label: 'Hospedaje',    count: 2 },
+  { id: 'Comida',       emoji: '🥐', label: 'Comida',       count: 2 },
+  { id: 'Talleres',     emoji: '🔧', label: 'Talleres',     count: 2 },
+  { id: 'Ferretería',   emoji: '🔩', label: 'Ferretería',   count: 1 },
+  { id: 'Agricultura',  emoji: '🌾', label: 'Agricultura',  count: 1 },
+];
+
+const businesses = [
+  {
+    id: 1, cat: 'Restaurantes', name: 'El Rincón Norteño', emoji: '🌮',
+    desc: 'Auténtica cocina chihuahuense con los mejores asados, burritos y chile verde de la región.',
+    price: '$$', badge: 'Destacado',
+    address: 'Calle Juárez 145, Centro, Cd. Camargo',
+    phone: '+52 625 100 0001', whatsapp: '526251000001',
+    hours: { Lun:'9:00–21:00', Mar:'9:00–21:00', Mié:'9:00–21:00', Jue:'9:00–21:00', Vie:'9:00–22:00', Sáb:'10:00–22:00', Dom:'10:00–20:00' },
+    products: [
+      { emoji:'🌮', name:'Burrito de Asada', price:'$85' },
+      { emoji:'🥩', name:'Corte Norteño', price:'$280' },
+      { emoji:'🫘', name:'Frijoles Charros', price:'$60' },
+      { emoji:'🌶', name:'Chile Verde', price:'$95' },
+    ],
+    fullDesc: 'Llevamos más de 15 años sirviendo la auténtica cocina chihuahuense en el corazón de Camargo. Nuestros ingredientes son frescos y locales. El lugar perfecto para reuniones familiares y de negocios.',
+    mapAddr: 'Calle+Juárez+145+Camargo+Chihuahua'
+  },
+  {
+    id: 2, cat: 'Restaurantes', name: 'La Parilla de Don Pepe', emoji: '🔥',
+    desc: 'Cortes de res y parrilladas con técnica tradicional del norte. El sabor que recordarás.',
+    price: '$$$', badge: null,
+    address: 'Av. Hidalgo 302, Cd. Camargo',
+    phone: '+52 625 100 0002', whatsapp: '526251000002',
+    hours: { Lun:'13:00–22:00', Mar:'13:00–22:00', Mié:'13:00–22:00', Jue:'13:00–22:00', Vie:'13:00–23:00', Sáb:'12:00–23:00', Dom:'12:00–21:00' },
+    products: [
+      { emoji:'🥩', name:'Rib Eye', price:'$420' },
+      { emoji:'🍗', name:'Arrachera', price:'$320' },
+      { emoji:'🌽', name:'Elote Asado', price:'$45' },
+      { emoji:'🍺', name:'Cerveza Artesanal', price:'$80' },
+    ],
+    fullDesc: 'Don Pepe lleva 20 años perfeccionando el arte de la parrilla norteña. Usamos leña de mezquite y cortes seleccionados de res chihuahuense para darte una experiencia gastronómica única.',
+    mapAddr: 'Av+Hidalgo+302+Camargo+Chihuahua'
+  },
+  {
+    id: 3, cat: 'Restaurantes', name: 'Mariscos El Puerto', emoji: '🦐',
+    desc: 'Los mejores mariscos frescos del norte. Camarones, ostiones y cocteles que no tienen rival.',
+    price: '$$', badge: null,
+    address: 'Blvd. Tecnológico 88, Cd. Camargo',
+    phone: '+52 625 100 0003', whatsapp: '526251000003',
+    hours: { Lun:'11:00–20:00', Mar:'11:00–20:00', Mié:'11:00–20:00', Jue:'11:00–20:00', Vie:'11:00–21:00', Sáb:'10:00–21:00', Dom:'10:00–18:00' },
+    products: [
+      { emoji:'🦐', name:'Coctel de Camarón', price:'$120' },
+      { emoji:'🦪', name:'Ostiones', price:'$180' },
+      { emoji:'🐟', name:'Ceviche', price:'$110' },
+      { emoji:'🍤', name:'Camarones Empanizados', price:'$160' },
+    ],
+    fullDesc: 'Traemos el sabor del mar hasta Camargo con mariscos frescos que llegan directamente de la costa. Nuestro coctel de camarón es el favorito de turistas y locales desde hace 10 años.',
+    mapAddr: 'Blvd+Tecnologico+88+Camargo+Chihuahua'
+  },
+  {
+    id: 4, cat: 'Hospedaje', name: 'Hotel Camargo Plaza', emoji: '🏨',
+    desc: 'Hospedaje confortable en el centro de la ciudad. Desayuno incluido, WiFi y estacionamiento.',
+    price: '$$', badge: 'Popular',
+    address: 'Calle 5 de Mayo 210, Centro, Cd. Camargo',
+    phone: '+52 625 100 0004', whatsapp: '526251000004',
+    hours: { Lun:'24hrs', Mar:'24hrs', Mié:'24hrs', Jue:'24hrs', Vie:'24hrs', Sáb:'24hrs', Dom:'24hrs' },
+    products: [
+      { emoji:'🛏', name:'Habitación Sencilla', price:'$650/noche' },
+      { emoji:'👫', name:'Habitación Doble', price:'$850/noche' },
+      { emoji:'👑', name:'Suite Junior', price:'$1,200/noche' },
+      { emoji:'🍳', name:'Desayuno', price:'Incluido' },
+    ],
+    fullDesc: 'El Hotel Camargo Plaza es el lugar preferido por viajeros de negocios y turistas que visitan nuestra ciudad. Ubicados a 2 cuadras del palacio municipal, ofrecemos todas las comodidades en el corazón de Camargo.',
+    mapAddr: 'Calle+5+de+Mayo+210+Camargo+Chihuahua'
+  },
+  {
+    id: 5, cat: 'Hospedaje', name: 'Casa Rural El Nogal', emoji: '🏡',
+    desc: 'AirBnB con encanto rústico a las afueras de Camargo. Ideal para grupos y familias.',
+    price: '$', badge: null,
+    address: 'Rancho Las Flores Km 4, Cd. Camargo',
+    phone: '+52 625 100 0005', whatsapp: '526251000005',
+    hours: { Lun:'Check-in 15:00', Mar:'–', Mié:'–', Jue:'–', Vie:'–', Sáb:'Check-out 12:00', Dom:'Check-out 12:00' },
+    products: [
+      { emoji:'🏡', name:'Casa Completa', price:'$1,800/noche' },
+      { emoji:'🔥', name:'Área de Fogata', price:'Incluido' },
+      { emoji:'🌳', name:'Jardín 500m²', price:'Incluido' },
+      { emoji:'🍖', name:'BBQ Equip.', price:'Incluido' },
+    ],
+    fullDesc: 'Una experiencia auténtica del campo chihuahuense a minutos del centro de Camargo. Casa rústica totalmente equipada para hasta 10 personas, rodeada de naturaleza. Perfecta para Semana Santa y vacaciones.',
+    mapAddr: 'Camargo+Chihuahua+rancho'
+  },
+  {
+    id: 6, cat: 'Comida', name: 'Panadería La Espiga de Oro', emoji: '🍞',
+    desc: 'Pan artesanal recién horneado cada mañana. Conchas, cuernos, polvorones y pasteles de temporada.',
+    price: '$', badge: 'Clásico',
+    address: 'Calle Morelos 67, Cd. Camargo',
+    phone: '+52 625 100 0006', whatsapp: '526251000006',
+    hours: { Lun:'7:00–20:00', Mar:'7:00–20:00', Mié:'7:00–20:00', Jue:'7:00–20:00', Vie:'7:00–20:00', Sáb:'7:00–21:00', Dom:'8:00–14:00' },
+    products: [
+      { emoji:'🥐', name:'Cuerno de Mantequilla', price:'$12' },
+      { emoji:'🧁', name:'Concha', price:'$15' },
+      { emoji:'🎂', name:'Pastel Personalizado', price:'Desde $350' },
+      { emoji:'🍪', name:'Polvorón', price:'$8' },
+    ],
+    fullDesc: 'Tres generaciones de panaderos camargueños poniendo el mismo amor en cada pieza de pan. Nuestras recetas son secretos de familia que seguimos elaborando con harina local y sin conservadores.',
+    mapAddr: 'Calle+Morelos+67+Camargo+Chihuahua'
+  },
+  {
+    id: 7, cat: 'Comida', name: 'Pastelería Dulce Tentación', emoji: '🎂',
+    desc: 'Pasteles, postres y antojitos dulces para toda ocasión. Pedidos especiales con 48 hrs de anticipación.',
+    price: '$$', badge: null,
+    address: 'Av. Universidad 430, Cd. Camargo',
+    phone: '+52 625 100 0007', whatsapp: '526251000007',
+    hours: { Lun:'9:00–20:00', Mar:'9:00–20:00', Mié:'9:00–20:00', Jue:'9:00–20:00', Vie:'9:00–21:00', Sáb:'9:00–21:00', Dom:'10:00–16:00' },
+    products: [
+      { emoji:'🎂', name:'Pastel de Boda', price:'Desde $800' },
+      { emoji:'🍮', name:'Flan Napolitano', price:'$55' },
+      { emoji:'🍰', name:'Pay de Queso', price:'$180' },
+      { emoji:'🧁', name:'Cupcakes x6', price:'$120' },
+    ],
+    fullDesc: 'La pastelería más querida de Camargo. Elaboramos pasteles personalizados para bodas, XV años, cumpleaños y cualquier celebración. Ingredientes de primera calidad y diseños únicos.',
+    mapAddr: 'Av+Universidad+430+Camargo+Chihuahua'
+  },
+  {
+    id: 8, cat: 'Talleres', name: 'Taller Mecánico Los Primos', emoji: '🔧',
+    desc: 'Servicio mecánico completo, hojalatería y pintura. Más de 25 años de experiencia y confianza.',
+    price: '$$', badge: null,
+    address: 'Blvd. Industrial 120, Cd. Camargo',
+    phone: '+52 625 100 0008', whatsapp: '526251000008',
+    hours: { Lun:'8:00–18:00', Mar:'8:00–18:00', Mié:'8:00–18:00', Jue:'8:00–18:00', Vie:'8:00–18:00', Sáb:'8:00–14:00', Dom:'Cerrado' },
+    products: [
+      { emoji:'🛢', name:'Cambio de Aceite', price:'$350' },
+      { emoji:'🔋', name:'Revisión de Batería', price:'$80' },
+      { emoji:'🎨', name:'Hojalatería y Pintura', price:'Cotizar' },
+      { emoji:'🔩', name:'Alineación y Balanceo', price:'$450' },
+    ],
+    fullDesc: 'El taller de confianza en Camargo desde 1999. Contamos con mecánicos certificados y equipos de diagnóstico de última generación. Tu vehículo en las mejores manos.',
+    mapAddr: 'Blvd+Industrial+120+Camargo+Chihuahua'
+  },
+  {
+    id: 9, cat: 'Talleres', name: 'Auto Lavado Brillo Total', emoji: '🚗',
+    desc: 'Lavado de autos exterior e interior, encerado y detailing profesional. Tu auto como nuevo.',
+    price: '$', badge: null,
+    address: 'Calle Reforma 55, Cd. Camargo',
+    phone: '+52 625 100 0009', whatsapp: '526251000009',
+    hours: { Lun:'8:00–19:00', Mar:'8:00–19:00', Mié:'8:00–19:00', Jue:'8:00–19:00', Vie:'8:00–19:00', Sáb:'8:00–20:00', Dom:'9:00–16:00' },
+    products: [
+      { emoji:'🚿', name:'Lavado Básico', price:'$100' },
+      { emoji:'✨', name:'Lavado Completo', price:'$250' },
+      { emoji:'💎', name:'Detailing Full', price:'$800' },
+      { emoji:'🧴', name:'Encerado', price:'$400' },
+    ],
+    fullDesc: 'Brillo Total es el car wash más moderno de Camargo. Usamos productos premium y técnicas profesionales de detailing para que tu automóvil luzca impecable en todo momento.',
+    mapAddr: 'Calle+Reforma+55+Camargo+Chihuahua'
+  },
+  {
+    id: 10, cat: 'Ferretería', name: 'Ferretería El Constructor', emoji: '🔩',
+    desc: 'Todo para tu obra y hogar: materiales de construcción, herramienta, tornillería y más.',
+    price: '$', badge: null,
+    address: 'Calle Allende 200, Cd. Camargo',
+    phone: '+52 625 100 0010', whatsapp: '526251000010',
+    hours: { Lun:'8:00–19:00', Mar:'8:00–19:00', Mié:'8:00–19:00', Jue:'8:00–19:00', Vie:'8:00–19:00', Sáb:'8:00–17:00', Dom:'Cerrado' },
+    products: [
+      { emoji:'🔨', name:'Herramienta Manual', price:'Desde $120' },
+      { emoji:'⚡', name:'Herramienta Eléctrica', price:'Desde $850' },
+      { emoji:'🧱', name:'Material de Construcción', price:'Cotizar' },
+      { emoji:'💡', name:'Material Eléctrico', price:'Desde $25' },
+    ],
+    fullDesc: 'La ferretería más completa del norte de Chihuahua. Más de 5,000 productos en stock, precios competitivos y atención personalizada para particulares y contratistas.',
+    mapAddr: 'Calle+Allende+200+Camargo+Chihuahua'
+  },
+  {
+    id: 11, cat: 'Agricultura', name: 'Agroverde Camargo', emoji: '🌾',
+    desc: 'Insumos agrícolas, semillas, fertilizantes y equipo de riego. Al servicio del campo chihuahuense.',
+    price: '$$', badge: null,
+    address: 'Km 2 Carretera a Jiménez, Cd. Camargo',
+    phone: '+52 625 100 0011', whatsapp: '526251000011',
+    hours: { Lun:'8:00–18:00', Mar:'8:00–18:00', Mié:'8:00–18:00', Jue:'8:00–18:00', Vie:'8:00–18:00', Sáb:'8:00–13:00', Dom:'Cerrado' },
+    products: [
+      { emoji:'🌱', name:'Semillas Certificadas', price:'Desde $180/kg' },
+      { emoji:'💧', name:'Sistema de Riego', price:'Cotizar' },
+      { emoji:'🧪', name:'Fertilizantes', price:'Desde $350' },
+      { emoji:'🚜', name:'Equipo Agrícola', price:'Cotizar' },
+    ],
+    fullDesc: 'Especialistas en insumos para el campo chihuahuense. Asesoramos a agricultores locales con las mejores soluciones en semillas, fertilizantes y sistemas de riego de alta eficiencia.',
+    mapAddr: 'Km+2+Carretera+Jimenez+Camargo+Chihuahua'
+  },
+];
+
+// ── STATE ──────────────────────────────────────
+let activeCategory = null;
+let currentBizId   = null;
+
+// ── NAV ──────────────────────────────────────
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.getElementById('main-footer').style.display = 'block';
+  window.scrollTo(0,0);
+  if (page === 'categories') renderCategories();
+}
+
+// ── CATEGORIES ──────────────────────────────────────
+function renderCategories() {
+  const grid = document.getElementById('cat-grid');
+  grid.innerHTML = categories.map(c => `
+    <div class="cat-card ${activeCategory === c.id ? 'active' : ''}" onclick="selectCategory('${c.id}')">
+      <span class="cat-emoji">${c.emoji}</span>
+      <span class="cat-name">${c.label}</span>
+      <span class="cat-count">${c.count} negocio${c.count !== 1 ? 's' : ''}</span>
+    </div>
+  `).join('');
+
+  if (activeCategory) renderBusinesses(activeCategory);
+}
+
+function selectCategory(catId) {
+  activeCategory = catId;
+  renderCategories();
+  document.getElementById('biz-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function filterAndGo(catId) {
+  activeCategory = catId;
+  showPage('categories');
+}
+
+function renderBusinesses(catId) {
+  const cat = categories.find(c => c.id === catId);
+  const filtered = businesses.filter(b => b.cat === catId);
+  const section = document.getElementById('biz-section');
+  const label   = document.getElementById('biz-section-label');
+  const title   = document.getElementById('biz-section-title');
+  const grid    = document.getElementById('biz-grid');
+
+  section.style.display = 'block';
+  label.textContent = cat.emoji + ' ' + cat.label;
+  title.textContent = filtered.length + ' negocio' + (filtered.length !== 1 ? 's' : '') + ' encontrado' + (filtered.length !== 1 ? 's' : '');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="emoji">🔍</div><p>No hay negocios en esta categoría aún.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((b, i) => `
+    <div class="biz-card" onclick="showProfile(${b.id})" style="animation-delay:${i * 0.07}s">
+      <div class="biz-card-logo">
+        <span class="biz-logo-emoji">${b.emoji}</span>
+        ${b.badge ? `<span class="biz-badge">${b.badge}</span>` : ''}
+      </div>
+      <div class="biz-card-body">
+        <div class="biz-card-name">${b.name}</div>
+        <div class="biz-card-desc">${b.desc}</div>
+        <div class="biz-card-footer">
+          <span class="biz-price">${b.price} · ${b.cat}</span>
+          <div class="biz-arrow">→</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── PROFILE ──────────────────────────────────────
+function showProfile(id) {
+  const b = businesses.find(x => x.id === id);
+  if (!b) return;
+  currentBizId = id;
+
+  const similar = businesses.filter(x => x.cat === b.cat && x.id !== b.id).slice(0,6);
+  const hoursHTML = Object.entries(b.hours).map(([day, time]) =>
+    `<span class="hours-day">${day}</span><span class="hours-time">${time}</span>`
+  ).join('');
+  const productsHTML = b.products.map(p => `
+    <div class="product-card">
+      <div class="product-emoji">${p.emoji}</div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-price">${p.price}</div>
+    </div>
+  `).join('');
+  const similarHTML = similar.map(s => `
+    <div class="similar-card" onclick="showProfile(${s.id})">
+      <div class="similar-card-img">${s.emoji}</div>
+      <div class="similar-card-body">
+        <div class="similar-card-name">${s.name}</div>
+        <div class="similar-card-cat">${s.cat} · ${s.price}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('profile-content').innerHTML = `
+    <div class="profile-hero">
+      <span style="font-size:8rem;position:relative;z-index:1;">${b.emoji}</span>
+      <div class="profile-hero-overlay"></div>
+      <button class="profile-back" onclick="showPage('categories')">← Regresar</button>
+    </div>
+
+    <div class="profile-content">
+      <div class="profile-top">
+        <span class="profile-cat-badge">${b.cat}</span>
+        <span class="profile-price-badge">${b.price}</span>
+      </div>
+      <h1 class="profile-h1">${b.name}</h1>
+
+      <div class="profile-cols">
+        <div>
+          <div class="profile-section">
+            <div class="profile-section-title">Sobre nosotros</div>
+            <p class="profile-desc">${b.fullDesc}</p>
+          </div>
+          <div class="profile-section">
+            <div class="profile-section-title">Productos y Servicios</div>
+            <div class="products-grid">${productsHTML}</div>
+          </div>
+          <div class="profile-section">
+            <div class="profile-section-title">📍 Ubicación</div>
+            <div class="map-placeholder">
+              <span class="map-pin">📍</span>
+              <span class="map-label">${b.address}</span>
+            </div>
+            <div style="margin-top:10px;">
+              <a href="https://maps.google.com/?q=${b.mapAddr}" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:var(--dark);color:var(--gold);padding:10px 20px;border-radius:50px;font-size:0.82rem;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='var(--dark)';this.style.color='var(--gold)'">
+                🗺 Abrir en Google Maps
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="contact-card">
+            <div class="contact-card-logo">${b.emoji}</div>
+            <h3>${b.name}</h3>
+            <a href="https://wa.me/${b.whatsapp}" target="_blank" style="text-decoration:none;">
+              <button class="contact-btn contact-btn-wa">💬 Contactar por WhatsApp</button>
+            </a>
+            <a href="tel:${b.phone}" style="text-decoration:none;">
+              <button class="contact-btn contact-btn-tel">📞 Llamar</button>
+            </a>
+            <div class="contact-info">
+              <div class="contact-info-row">
+                <div class="contact-info-icon">📍</div>
+                <div class="contact-info-text"><strong>Dirección</strong>${b.address}</div>
+              </div>
+              <div class="contact-info-row">
+                <div class="contact-info-icon">🕐</div>
+                <div class="contact-info-text">
+                  <strong>Horarios</strong>
+                  <div class="hours-grid">${hoursHTML}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    ${similar.length > 0 ? `
+    <div class="similar-section">
+      <div class="inner">
+        <p class="section-label">También en ${b.cat}</p>
+        <h3 class="section-title" style="margin-bottom:20px;">Negocios similares</h3>
+        <div class="similar-scroll">${similarHTML}</div>
+      </div>
+    </div>` : ''}
+  `;
+
+  showPage('profile');
+}
+
+// ── FORM ──────────────────────────────────────
+function submitForm() {
+  document.getElementById('form-fields').style.display = 'none';
+  document.getElementById('form-success').style.display = 'block';
+}
+
+// ── INIT ──────────────────────────────────────
+// move footer into home page at bottom
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('main-footer').style.display = 'block';
+});
+</script>
+</body>
+</html>

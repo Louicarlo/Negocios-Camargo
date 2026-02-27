@@ -910,6 +910,17 @@ async function loadFromSheets() {
     const parsed = parseCSV(csv);
     showLoadingBanner(false);
     console.log(`✅ ${parsed.length} negocios cargados desde Google Sheets`);
+    console.log('🔍 DEBUG primer negocio:', JSON.stringify(parsed[0]));
+    console.log('🔍 DEBUG cats encontradas:', [...new Set(parsed.map(b => b.cat))]);
+    // Mostrar alerta visual temporal para debug
+    if (parsed.length > 0) {
+      const d = document.createElement('div');
+      d.id = 'debug-banner';
+      d.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#1A1208;color:#F5A623;padding:12px 18px;border-radius:12px;font-size:0.8rem;font-family:monospace;z-index:9999;max-width:320px;word-break:break-all;';
+      d.innerHTML = `✅ Sheet cargado: ${parsed.length} negocios<br>Cats: ${[...new Set(parsed.map(b => b.cat))].join(', ')}<br>1er negocio: ${parsed[0]?.name || 'sin nombre'} | cat: "${parsed[0]?.cat || 'sin cat'}"`;
+      document.body.appendChild(d);
+      setTimeout(() => d.remove(), 10000);
+    }
     return parsed;
   } catch (err) {
     showLoadingBanner(false);

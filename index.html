@@ -945,18 +945,8 @@ function parseCSV(csv) {
     const clean = line.replace(/,/g,'').trim();
     return clean.length > 0;
   }).map(line => {
-    // Parser robusto usando regex que respeta emojis y comillas
-    const values = [];
-    const regex = /("(?:[^"]|"")*"|[^,]*)/g;
-    let match;
-    while ((match = regex.exec(line)) !== null) {
-      let val = match[1];
-      if (val.startsWith('"') && val.endsWith('"')) {
-        val = val.slice(1,-1).replace(/""/g, '"');
-      }
-      values.push(val.replace(/\r/g,'').trim());
-      if (regex.lastIndex === line.length) break;
-    }
+    // Parser simple: split por coma, respeta emojis
+    const values = line.split(',').map(v => v.replace(/^"|"$/g,'').replace(/\r/g,'').trim());
 
     const row = {};
     headers.forEach((h, i) => { if(h) row[h] = values[i] !== undefined ? values[i] : ''; });

@@ -945,18 +945,21 @@ function parseCSV(csv) {
     const clean = line.replace(/,/g,'').trim();
     return clean.length > 0;
   }).map(line => {
-    // Manejo de comas dentro de campos entre comillas
+    // Parser robusto usando regex que respeta emojis y comillas
     const values = [];
-    let inQuotes = false, current = '';
-    for (let ch of line) {
-      if (ch === '"') { inQuotes = !inQuotes; continue; }
-      if (ch === ',' && !inQuotes) { values.push(current.trim()); current = ''; continue; }
-      current += ch;
+    const regex = /("(?:[^"]|"")*"|[^,]*)/g;
+    let match;
+    while ((match = regex.exec(line)) !== null) {
+      let val = match[1];
+      if (val.startsWith('"') && val.endsWith('"')) {
+        val = val.slice(1,-1).replace(/""/g, '"');
+      }
+      values.push(val.replace(/\r/g,'').trim());
+      if (regex.lastIndex === line.length) break;
     }
-    values.push(current.trim());
 
     const row = {};
-    headers.forEach((h, i) => { if(h) row[h] = (values[i] || '').replace(/\r/g,'').trim(); });
+    headers.forEach((h, i) => { if(h) row[h] = values[i] !== undefined ? values[i] : ''; });
     
     console.log('📦 Fila parseada - id:', row.id, '| cat:', row.cat, '| name:', row.name);
     

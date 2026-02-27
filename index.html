@@ -945,6 +945,8 @@ function parseCSV(csv) {
     const clean = line.replace(/,/g,'').trim();
     return clean.length > 0;
   }).map(line => {
+    // Mostrar línea cruda para debug
+    console.log('🔴 Línea cruda:', JSON.stringify(line.substring(0,80)));
     // Parser simple: split por coma, respeta emojis
     const values = line.split(',').map(v => v.replace(/^"|"$/g,'').replace(/\r/g,'').trim());
 

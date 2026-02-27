@@ -683,6 +683,7 @@ footer {
         <button onclick="filterAndGo('Talleres')" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--white);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--white)'">🔧 Talleres</button>
         <button onclick="filterAndGo('Ferretería')" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--white);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--white)'">🔩 Ferretería</button>
         <button onclick="filterAndGo('Agricultura')" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--white);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--white)'">🌾 Agricultura</button>
+        <button onclick="filterAndGo('Uniformes')" style="background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);color:var(--white);padding:8px 18px;border-radius:50px;font-family:var(--font-body);font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='var(--gold)';this.style.color='var(--dark)'" onmouseout="this.style.background='rgba(245,166,35,0.12)';this.style.color='var(--white)'">👕 Uniformes</button>
       </div>
     </div>
   </section>
@@ -766,6 +767,7 @@ footer {
               <option>Talleres</option>
               <option>Ferretería</option>
               <option>Agricultura</option>
+              <option>Uniformes</option>
               <option>Otro</option>
             </select>
           </div>
@@ -867,6 +869,7 @@ const categories = [
   { id: 'Talleres',     emoji: '🔧', label: 'Talleres',     count: 2 },
   { id: 'Ferretería',   emoji: '🔩', label: 'Ferretería',   count: 1 },
   { id: 'Agricultura',  emoji: '🌾', label: 'Agricultura',  count: 1 },
+  { id: 'Uniformes',    emoji: '👕', label: 'Uniformes',    count: 0 },
 ];
 
 

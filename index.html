@@ -939,6 +939,11 @@ function parseCSV(csv) {
       cat: row.cat || '',
       name: row.name || '',
       emoji: row.emoji || '🏪',
+      img: row.img || '',
+      prod1_img: row.prod1_img || '',
+      prod2_img: row.prod2_img || '',
+      prod3_img: row.prod3_img || '',
+      prod4_img: row.prod4_img || '',
       desc: row.desc || '',
       price: row.price || '$',
       badge: row.badge || null,
@@ -952,10 +957,10 @@ function parseCSV(csv) {
         Dom: row.hours_dom || ''
       },
       products: [
-        row.prod1_name ? { emoji: row.prod1_emoji || '📦', name: row.prod1_name, price: row.prod1_price || '' } : null,
-        row.prod2_name ? { emoji: row.prod2_emoji || '📦', name: row.prod2_name, price: row.prod2_price || '' } : null,
-        row.prod3_name ? { emoji: row.prod3_emoji || '📦', name: row.prod3_name, price: row.prod3_price || '' } : null,
-        row.prod4_name ? { emoji: row.prod4_emoji || '📦', name: row.prod4_name, price: row.prod4_price || '' } : null,
+        row.prod1_name ? { emoji: row.prod1_emoji || '📦', name: row.prod1_name, price: row.prod1_price || '', img: row.prod1_img || '' } : null,
+        row.prod2_name ? { emoji: row.prod2_emoji || '📦', name: row.prod2_name, price: row.prod2_price || '', img: row.prod2_img || '' } : null,
+        row.prod3_name ? { emoji: row.prod3_emoji || '📦', name: row.prod3_name, price: row.prod3_price || '', img: row.prod3_img || '' } : null,
+        row.prod4_name ? { emoji: row.prod4_emoji || '📦', name: row.prod4_name, price: row.prod4_price || '', img: row.prod4_img || '' } : null,
       ].filter(Boolean),
       fullDesc: row.fullDesc || row.desc || '',
       mapAddr: row.mapAddr || ''
@@ -1213,7 +1218,8 @@ function renderBusinesses(catId) {
   grid.innerHTML = filtered.map((b, i) => `
     <div class="biz-card" onclick="showProfile(${b.id})" style="animation-delay:${i * 0.07}s">
       <div class="biz-card-logo">
-        <span class="biz-logo-emoji">${b.emoji}</span>
+        ${b.img ? `<img src="${b.img}" alt="${b.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="biz-logo-emoji" style="display:none">${b.emoji}</span>` : `<span class="biz-logo-emoji">${b.emoji}</span>`}
         ${b.badge ? `<span class="biz-badge">${b.badge}</span>` : ''}
       </div>
       <div class="biz-card-body">
@@ -1240,14 +1246,26 @@ function showProfile(id) {
   ).join('');
   const productsHTML = b.products.map(p => `
     <div class="product-card">
-      <div class="product-emoji">${p.emoji}</div>
+      <div class="product-emoji" style="overflow:hidden;border-radius:12px;">
+        ${p.img
+          ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+             <span style="display:none;font-size:2.5rem;">${p.emoji}</span>`
+          : `<span style="font-size:2.5rem;">${p.emoji}</span>`
+        }
+      </div>
       <div class="product-name">${p.name}</div>
       <div class="product-price">${p.price}</div>
     </div>
   `).join('');
   const similarHTML = similar.map(s => `
     <div class="similar-card" onclick="showProfile(${s.id})">
-      <div class="similar-card-img">${s.emoji}</div>
+      <div class="similar-card-img" style="overflow:hidden;">
+        ${s.img
+          ? `<img src="${s.img}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+             <span style="display:block;font-size:2rem;text-align:center;padding-top:8px;display:none">${s.emoji}</span>`
+          : s.emoji
+        }
+      </div>
       <div class="similar-card-body">
         <div class="similar-card-name">${s.name}</div>
         <div class="similar-card-cat">${s.cat} · ${s.price}</div>
@@ -1257,7 +1275,10 @@ function showProfile(id) {
 
   document.getElementById('profile-content').innerHTML = `
     <div class="profile-hero">
-      <span style="font-size:8rem;position:relative;z-index:1;">${b.emoji}</span>
+      ${b.img
+        ? `<img src="${b.img}" alt="${b.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none'">`
+        : `<span style="font-size:8rem;position:relative;z-index:1;">${b.emoji}</span>`
+      }
       <div class="profile-hero-overlay"></div>
       <button class="profile-back" onclick="showPage('categories')">← Regresar</button>
     </div>
@@ -1295,7 +1316,12 @@ function showProfile(id) {
 
         <div>
           <div class="contact-card">
-            <div class="contact-card-logo">${b.emoji}</div>
+            <div class="contact-card-logo" style="overflow:hidden;border-radius:50%;">
+              ${b.img
+                ? `<img src="${b.img}" alt="${b.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.outerHTML='${b.emoji}'">`
+                : b.emoji
+              }
+            </div>
             <h3>${b.name}</h3>
             <a href="https://wa.me/${b.whatsapp}" target="_blank" style="text-decoration:none;">
               <button class="contact-btn contact-btn-wa">💬 Contactar por WhatsApp</button>

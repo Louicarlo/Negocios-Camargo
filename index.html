@@ -951,6 +951,9 @@ function parseCSV(csv) {
     const row = {};
     headers.forEach((h, i) => { if(h) row[h] = values[i] !== undefined ? values[i] : ''; });
     
+    console.log('📦 Values[0..3]:', values[0], '|', values[1], '|', values[2]);
+    console.log('📦 Headers[0..3]:', headers[0], '|', headers[1], '|', headers[2]);
+    console.log('📦 Headers[0] charCode:', headers[0] ? headers[0].charCodeAt(0) : 'empty');
     console.log('📦 Fila parseada - id:', row.id, '| cat:', row.cat, '| name:', row.name);
     
     return {

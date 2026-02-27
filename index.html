@@ -1177,8 +1177,41 @@ function showPage(page) {
 
 // ── CATEGORIES ──────────────────────────────────────
 function renderCategories() {
+  // Emojis por defecto para categorías nuevas
+  const defaultEmojis = {
+    'Restaurantes': '🍽', 'Hospedaje': '🏨', 'Comida': '🥐',
+    'Talleres': '🔧', 'Ferretería': '🔩', 'Agricultura': '🌾',
+    'Uniformes': '👕', 'Salud': '💊', 'Belleza': '💇',
+    'Tiendas': '🛒', 'Servicios': '⚙️', 'Educación': '📚',
+    'Deportes': '⚽', 'Tecnología': '💻', 'Automotriz': '🚗',
+  };
+
+  // Generar categorías dinámicamente desde los negocios cargados
+  const catMap = {};
+  businesses.forEach(b => {
+    if (!b.cat) return;
+    if (!catMap[b.cat]) {
+      // Buscar en categorías fijas si ya existe
+      const existing = categories.find(c => c.id === b.cat);
+      catMap[b.cat] = {
+        id: b.cat,
+        label: b.cat,
+        emoji: existing ? existing.emoji : (defaultEmojis[b.cat] || '🏪'),
+        count: 0
+      };
+    }
+    catMap[b.cat].count++;
+  });
+
+  // Incluir categorías fijas que no tengan negocios aún
+  categories.forEach(c => {
+    if (!catMap[c.id]) catMap[c.id] = { ...c, count: 0 };
+  });
+
+  const activeCats = Object.values(catMap).filter(c => c.count > 0);
+
   const grid = document.getElementById('cat-grid');
-  grid.innerHTML = categories.map(c => `
+  grid.innerHTML = activeCats.map(c => `
     <div class="cat-card ${activeCategory === c.id ? 'active' : ''}" onclick="selectCategory('${c.id}')">
       <span class="cat-emoji">${c.emoji}</span>
       <span class="cat-name">${c.label}</span>
@@ -1209,7 +1242,10 @@ function renderBusinesses(catId) {
   const grid    = document.getElementById('biz-grid');
 
   section.style.display = 'block';
-  label.textContent = cat.emoji + ' ' + cat.label;
+  const defaultEmojis2 = {'Restaurantes':'🍽','Hospedaje':'🏨','Comida':'🥐','Talleres':'🔧','Ferretería':'🔩','Agricultura':'🌾','Uniformes':'👕','Salud':'💊','Belleza':'💇','Tiendas':'🛒','Servicios':'⚙️','Educación':'📚'};
+  const catEmoji = cat ? cat.emoji : (defaultEmojis2[catId] || '🏪');
+  const catLabel = cat ? cat.label : catId;
+  label.textContent = catEmoji + ' ' + catLabel;
   title.textContent = filtered.length + ' negocio' + (filtered.length !== 1 ? 's' : '') + ' encontrado' + (filtered.length !== 1 ? 's' : '');
 
   if (filtered.length === 0) {

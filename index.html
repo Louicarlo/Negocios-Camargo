@@ -933,7 +933,7 @@ function parseCSV(csv) {
   // Normalizar saltos de línea (Windows \r\n y Mac \r)
   const normalized = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   const lines = normalized.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, '').trim());
+  const headers = lines[0].split(',').map(h => h.replace(/\r/g,'').replace(/"/g,'').trim());
 
   console.log('📋 Encabezados detectados:', headers.slice(0,5));
 

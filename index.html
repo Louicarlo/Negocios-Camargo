@@ -930,10 +930,14 @@ async function loadFromSheets() {
 }
 
 function parseCSV(csv) {
-  // Normalizar saltos de línea (Windows \r\n y Mac \r)
-  const normalized = csv.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  // Limpiar BOM, normalizar saltos de línea
+  const normalized = csv
+    .replace(/^\uFEFF/, '')         // quitar BOM
+    .replace(/\r\n/g, '\n')       // Windows
+    .replace(/\r/g, '\n');         // Mac clásico
   const lines = normalized.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.replace(/\r/g,'').replace(/"/g,'').trim());
+  const headers = lines[0].split(',').map(h => h.replace(/\r/g,'').replace(/"/g,'').replace(/\uFEFF/g,'').trim());
+  console.log('📋 Headers limpios:', headers.slice(0,6));
 
   console.log('📋 Encabezados detectados:', headers.slice(0,5));
 

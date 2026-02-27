@@ -1231,6 +1231,13 @@ function selectCategory(catId) {
 function filterAndGo(catId) {
   activeCategory = catId;
   showPage('categories');
+  // Si los negocios aún no han cargado desde Sheets, esperar
+  if (businesses.length === 0) {
+    loadFromSheets().then(sheetsData => {
+      if (sheetsData && sheetsData.length > 0) businesses = sheetsData;
+      renderCategories();
+    });
+  }
 }
 
 function renderBusinesses(catId) {
@@ -1414,6 +1421,13 @@ window.addEventListener('DOMContentLoaded', () => {
       businesses = sheetsData;
       const statEl = document.querySelector('.hero-stat strong');
       if (statEl) statEl.textContent = sheetsData.length + '+';
+      // Si ya estamos en la página de categorías, re-renderizar con datos nuevos
+      const catPage = document.getElementById('page-categories');
+      if (catPage && catPage.classList.contains('active')) {
+        renderCategories();
+      }
+      // Si hay una categoría activa pendiente, cargarla
+      if (activeCategory) renderCategories();
     }
   });
 });

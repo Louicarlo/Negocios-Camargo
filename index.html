@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Negocios Camargo</title>
+<title>Negocios Chihuahua</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -240,7 +240,152 @@ nav {
 }
 .search-bar-btn:hover { background: var(--gold-dark); transform: scale(1.03); }
 
+/* ── CITY POPUP ── */
+#city-popup-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(10,7,2,0.92);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.3s ease;
+}
+#city-popup-overlay.hidden { display: none; }
+.city-popup {
+  background: #1A1208;
+  border: 1px solid rgba(245,166,35,0.25);
+  border-radius: 28px;
+  padding: 48px 40px 40px;
+  max-width: 480px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  animation: fadeUp 0.4s ease both;
+}
+.city-popup-logo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--white);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.city-popup-logo span { color: var(--gold); }
+.city-popup-subtitle {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+.city-popup h3 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--white);
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.city-popup p {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+.city-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.city-option {
+  display: flex; align-items: center; gap: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(245,166,35,0.15);
+  border-radius: 16px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: left;
+  width: 100%;
+}
+.city-option:hover, .city-option.selected {
+  border-color: var(--gold);
+  background: rgba(245,166,35,0.1);
+}
+.city-option-emoji { font-size: 1.8rem; }
+.city-option-info { flex: 1; }
+.city-option-name {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--white);
+  display: block;
+}
+.city-option-desc {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+}
+.city-option-arrow {
+  color: var(--gold);
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.city-option:hover .city-option-arrow,
+.city-option.selected .city-option-arrow { opacity: 1; }
+.city-popup-all {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.35);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-top: 4px;
+  transition: color 0.2s;
+}
+.city-popup-all:hover { color: rgba(255,255,255,0.6); }
+
+/* ── CITY INDICATOR en navbar ── */
+.nav-city {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(245,166,35,0.1);
+  border: 1px solid rgba(245,166,35,0.2);
+  border-radius: 50px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.nav-city:hover { background: rgba(245,166,35,0.2); }
+
+/* ── CITY FILTER en categorías ── */
+.city-filter-bar {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  padding: 0 32px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.city-filter-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.6);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.city-filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+.city-filter-btn.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--dark);
+}
+
 /* ── CATEGORY CAROUSEL ── */
+
 .cat-carousel-section {
   background: var(--dark2);
   padding: 8px 0 40px;
@@ -825,12 +970,53 @@ footer {
 <!-- ═══════════════════════════════════════════
      NAVBAR
 ═══════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     CITY SELECTOR POPUP
+═══════════════════════════════════════════ -->
+<div id="city-popup-overlay" class="hidden">
+  <div class="city-popup">
+    <div class="city-popup-logo">Negocios<span>Chihuahua</span></div>
+    <div class="city-popup-subtitle">El Estado Grande</div>
+    <h3>¿En qué ciudad estás?</h3>
+    <p>Selecciona tu ciudad para ver los negocios cerca de ti</p>
+    <div class="city-options">
+      <button class="city-option" onclick="selectCity('Cd. Camargo')">
+        <span class="city-option-emoji">🏜️</span>
+        <div class="city-option-info">
+          <span class="city-option-name">Cd. Camargo</span>
+          <span class="city-option-desc">Valle de Allende · Río Conchos</span>
+        </div>
+        <span class="city-option-arrow">→</span>
+      </button>
+      <button class="city-option" onclick="selectCity('Cd. Chihuahua')">
+        <span class="city-option-emoji">🏙️</span>
+        <div class="city-option-info">
+          <span class="city-option-name">Cd. Chihuahua</span>
+          <span class="city-option-desc">Capital del Estado Grande</span>
+        </div>
+        <span class="city-option-arrow">→</span>
+      </button>
+      <button class="city-option" onclick="selectCity('Delicias')">
+        <span class="city-option-emoji">🌾</span>
+        <div class="city-option-info">
+          <span class="city-option-name">Delicias</span>
+          <span class="city-option-desc">Corazón agrícola de Chihuahua</span>
+        </div>
+        <span class="city-option-arrow">→</span>
+      </button>
+    </div>
+    <button class="city-popup-all" onclick="selectCity('todas')">Ver negocios de todas las ciudades</button>
+  </div>
+</div>
+
 <nav>
-  <div class="nav-logo" onclick="showPage('home')">Negocios<span>Camargo</span></div>
+  <div class="nav-logo" onclick="showPage('home')">Negocios<span>Chihuahua</span></div>
   <div class="nav-links">
     <button class="nav-link" onclick="showPage('home')">Inicio</button>
     <button class="nav-link" onclick="showPage('categories')">Categorías</button>
-    <button class="nav-link" onclick="showPage('categories')">Explorar</button>
+    <button class="nav-city" id="nav-city-btn" onclick="openCityPopup()">
+      📍 <span id="nav-city-label">Elige ciudad</span>
+    </button>
     <button class="nav-btn" onclick="showPage('register')">Registra tu Negocio</button>
   </div>
 </nav>
@@ -847,9 +1033,9 @@ footer {
     <div class="hero-overlay"></div>
     <div class="hero-pattern"></div>
     <div class="hero-content">
-      <span class="hero-eyebrow">📍 Cd. Camargo, Chihuahua</span>
-      <h1>Negocios<br><span>Camargo</span></h1>
-      <p class="hero-sub">Descubre los mejores restaurantes, hoteles, tiendas y más.<br>Todo lo que Camargo tiene para ti en un solo lugar.</p>
+      <span class="hero-eyebrow">📍 Chihuahua, El Estado Grande</span>
+      <h1>Negocios<br><span>Chihuahua</span></h1>
+      <p class="hero-sub">Descubre los mejores restaurantes, hoteles, tiendas y más.<br>Encuentra el negocio que necesitas en el Estado Grande.</p>
       <button class="hero-btn" onclick="showPage('categories')">
         Explorar negocios
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -918,6 +1104,16 @@ footer {
     <div class="cat-grid" id="cat-grid"></div>
 
     <div class="divider" style="margin-top:40px;"></div>
+
+  <!-- CITY FILTER BAR -->
+  <div style="background:var(--dark2); padding:16px 0 4px;">
+    <div class="city-filter-bar" id="city-filter-bar">
+      <button class="city-filter-btn active" onclick="filterByCity('todas')">🗺️ Todas</button>
+      <button class="city-filter-btn" onclick="filterByCity('Cd. Camargo')">🏜️ Camargo</button>
+      <button class="city-filter-btn" onclick="filterByCity('Cd. Chihuahua')">🏙️ Chihuahua</button>
+      <button class="city-filter-btn" onclick="filterByCity('Delicias')">🌾 Delicias</button>
+    </div>
+  </div>
 
     <div id="biz-section" style="display:none;">
       <p class="section-label" id="biz-section-label">Negocios</p>
@@ -1039,7 +1235,7 @@ footer {
 <footer id="main-footer" style="display:none;">
   <div class="footer-inner">
     <div>
-      <div class="footer-logo">Negocios<span>Camargo</span></div>
+      <div class="footer-logo">Negocios<span>Chihuahua</span></div>
       <p class="footer-tagline">El directorio digital de Camargo y Chihuahua. Encuentra todo lo que nuestra ciudad tiene para ofrecerte.</p>
     </div>
     <div class="footer-col">
@@ -1060,7 +1256,7 @@ footer {
       </div>
       <div style="margin-top:16px;">
         <h4>Contacto</h4>
-        <p style="font-size:0.8rem;margin-top:6px;">📍 Cd. Camargo, Chihuahua</p>
+        <p style="font-size:0.8rem;margin-top:6px;">📍 Chihuahua, El Estado Grande</p>
       </div>
     </div>
   </div>
@@ -1592,6 +1788,92 @@ function submitForm() {
 
 // ── INIT ──────────────────────────────────────
 // move footer into home page at bottom
+// ── CITY SELECTOR ──────────────────────────────────────
+const CIUDADES = ['Cd. Camargo', 'Cd. Chihuahua', 'Delicias'];
+let selectedCity = 'todas';
+
+function openCityPopup() {
+  document.getElementById('city-popup-overlay').classList.remove('hidden');
+}
+
+function selectCity(city) {
+  selectedCity = city;
+  localStorage.setItem('negchih_city', city);
+  document.getElementById('city-popup-overlay').classList.add('hidden');
+  
+  const label = document.getElementById('nav-city-label');
+  if (label) label.textContent = city === 'todas' ? 'Todas las ciudades' : city;
+
+  // Actualizar eyebrow del hero
+  const eyebrow = document.querySelector('.hero-eyebrow');
+  if (eyebrow) eyebrow.textContent = city === 'todas' ? '📍 Chihuahua, El Estado Grande' : '📍 ' + city + ', Chihuahua';
+
+  // Si estamos en categorías, re-renderizar con filtro
+  const catPage = document.getElementById('page-categories');
+  if (catPage && catPage.classList.contains('active')) {
+    filterByCity(city);
+  }
+  // Re-renderizar carrusel
+  renderHomeCarousel();
+}
+
+function filterByCity(city) {
+  selectedCity = city;
+  // Actualizar botones activos
+  document.querySelectorAll('.city-filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+    const btnCity = btn.getAttribute('onclick').match(/'([^']+)'/)?.[1];
+    if (btnCity === city) btn.classList.add('active');
+  });
+  // Re-renderizar negocios con filtro
+  renderCategoriesFiltered();
+}
+
+function getFilteredBusinesses() {
+  if (selectedCity === 'todas') return businesses;
+  return businesses.filter(b => {
+    if (!b.ciudades) return false;
+    const cities = b.ciudades.split(',').map(c => c.trim());
+    return cities.some(c => c === selectedCity);
+  });
+}
+
+function renderCategoriesFiltered() {
+  const filtered = getFilteredBusinesses();
+  const grid = document.getElementById('biz-grid');
+  const section = document.getElementById('biz-section');
+  const label = document.getElementById('biz-section-label');
+  const title = document.getElementById('biz-section-title');
+  if (!grid) return;
+
+  section.style.display = 'block';
+  const cityLabel = selectedCity === 'todas' ? 'Todas las ciudades' : selectedCity;
+  label.textContent = activeCategory || 'Todos';
+  title.textContent = filtered.length + ' negocio' + (filtered.length !== 1 ? 's' : '') + ' en ' + cityLabel;
+
+  const toShow = activeCategory ? filtered.filter(b => b.cat === activeCategory) : filtered;
+  if (toShow.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="emoji">🏙️</div><p>No hay negocios en ${cityLabel} aún</p></div>`;
+  } else {
+    grid.innerHTML = toShow.map((b, i) => `
+      <div class="biz-card" onclick="showProfile(${b.id})" style="animation-delay:${i * 0.07}s">
+        <div class="biz-card-logo">
+          ${b.img ? `<img src="${b.img}" alt="${b.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="biz-logo-emoji" style="display:none">${b.emoji}</span>` : `<span class="biz-logo-emoji">${b.emoji}</span>`}
+          ${b.badge ? `<span class="biz-badge">${b.badge}</span>` : ''}
+        </div>
+        <div class="biz-card-body">
+          <div class="biz-card-name">${b.name}</div>
+          <div class="biz-card-desc">${b.desc}</div>
+          <div class="biz-card-footer">
+            <span class="biz-price">${b.price} · ${b.cat}</span>
+            <div class="biz-arrow">→</div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
 // ── SEARCH ──────────────────────────────────────
 function doSearch() {
   const query = document.getElementById('hero-search').value.trim().toLowerCase();
@@ -1724,10 +2006,23 @@ function renderTikTokGrid() {
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('main-footer').style.display = 'block';
   // Cargar desde Google Sheets si está configurado
+  // Restaurar ciudad guardada
+  const savedCity = localStorage.getItem('negchih_city');
+  if (savedCity) {
+    selectedCity = savedCity;
+    const label = document.getElementById('nav-city-label');
+    if (label) label.textContent = savedCity === 'todas' ? 'Todas las ciudades' : savedCity;
+  } else {
+    // Mostrar popup después de 800ms
+    setTimeout(() => {
+      document.getElementById('city-popup-overlay').classList.remove('hidden');
+    }, 800);
+  }
+
   loadFromSupabase().then(data => {
     if (data && data.length > 0) {
       businesses = data;
-      const statEl = document.querySelector('.hero-stat strong');
+      const statEl = document.querySelector('.hero-stat.strong, .hero-stat strong');
       if (statEl) statEl.textContent = data.length + '+';
       renderHomeCarousel();
       renderTikTokGrid();

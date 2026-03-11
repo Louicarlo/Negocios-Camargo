@@ -843,9 +843,9 @@ footer {
     <div class="footer-col">
       <h4>Síguenos</h4>
       <div class="footer-social">
-<a href="https://www.facebook.com/profile.php?id=61586452641612" target="_blank"><div class="social-btn">f</div></a>
-<a href="https://www.instagram.com/negocioscamargo/" target="_blank"><div class="social-btn">📷</div></a>
-<div class="social-btn">▶</div>
+        <div class="social-btn">f</div>
+        <div class="social-btn">📸</div>
+        <div class="social-btn">▶</div>
       </div>
       <div style="margin-top:16px;">
         <h4>Contacto</h4>
@@ -874,106 +874,49 @@ const categories = [
 
 
 /* ═══════════════════════════════════════════
-   GOOGLE SHEETS CONFIG
-   
-   Para activar Google Sheets como base de datos:
-   1. Crea un Google Sheet con las columnas descritas abajo
-   2. Archivo → Compartir → Publicar en la web → CSV → Hoja1 → Publicar
-   3. Copia el enlace CSV y pégalo en SHEETS_URL abajo
-   4. Cambia USE_SHEETS a true
+   SUPABASE CONFIG
 ═══════════════════════════════════════════ */
-const SHEETS_CONFIG = {
-  USE_SHEETS: true,
-  URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR9-3SqtP6jHOjN_sMAyiwu-p9Ism_5LUtQVSQ1spWtLUuOXEP8iCiU239c_ISh3vdh0ObTEMGzGFpj/pub?gid=0&single=true&output=csv',
-  // Ejemplo de cómo debe verse el URL:
-  // 'https://docs.google.com/spreadsheets/d/TU_ID/pub?output=csv&gid=0'
-};
+const SUPABASE_URL = 'https://jnhfhrcqiyhgmzznzlzz.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_9OI8qbdwO4XRM77QGV3_Lw_gu3QU5Oc';
 
-/* FORMATO DEL GOOGLE SHEET (columnas exactas):
-   id | cat | name | emoji | desc | price | badge | address | phone | whatsapp | hours_lun | hours_mar | hours_mie | hours_jue | hours_vie | hours_sab | hours_dom | prod1_emoji | prod1_name | prod1_price | prod2_emoji | prod2_name | prod2_price | prod3_emoji | prod3_name | prod3_price | prod4_emoji | prod4_name | prod4_price | fullDesc | mapAddr
-   
-   EJEMPLO de fila en el Sheet:
-   1 | Restaurantes | El Rincón Norteño | 🌮 | Auténtica cocina... | $$ | Destacado | Calle Juárez 145 | +52 625... | 52625... | 9:00-21:00 | 9:00-21:00 | 9:00-21:00 | ...
-*/
-
-async function loadFromSheets() {
-  if (!SHEETS_CONFIG.USE_SHEETS || !SHEETS_CONFIG.URL || SHEETS_CONFIG.URL === 'TU_URL_CSV_AQUI') {
-    console.log('📋 Usando datos locales (Google Sheets no configurado)');
-    return null;
-  }
-  
+async function loadFromSupabase() {
   try {
     showLoadingBanner(true);
-    const response = await fetch(SHEETS_CONFIG.URL);
-    if (!response.ok) throw new Error('Error al cargar Sheet');
-    const csv = await response.text();
-    const parsed = parseCSV(csv);
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/negocios?activo=eq.true&order=id.asc`,
+      {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    if (!response.ok) throw new Error(`Error ${response.status}`);
+    const data = await response.json();
     showLoadingBanner(false);
-    console.log(`✅ ${parsed.length} negocios cargados desde Google Sheets`);
-    console.log('🔍 DEBUG primer negocio:', JSON.stringify(parsed[0]));
-    console.log('🔍 DEBUG cats encontradas:', [...new Set(parsed.map(b => b.cat))]);
-    // Mostrar alerta visual temporal para debug
-    if (parsed.length > 0) {
-      const d = document.createElement('div');
-      d.id = 'debug-banner';
-      d.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#1A1208;color:#F5A623;padding:12px 18px;border-radius:12px;font-size:0.8rem;font-family:monospace;z-index:9999;max-width:320px;word-break:break-all;';
-      d.innerHTML = `✅ Sheet cargado: ${parsed.length} negocios<br>Cats: ${[...new Set(parsed.map(b => b.cat))].join(', ')}<br>1er negocio: ${parsed[0]?.name || 'sin nombre'} | cat: "${parsed[0]?.cat || 'sin cat'}"`;
-      document.body.appendChild(d);
-      setTimeout(() => d.remove(), 10000);
-    }
-    return parsed;
-  } catch (err) {
-    showLoadingBanner(false);
-    console.warn('⚠️ No se pudo cargar Sheets, usando datos locales:', err.message);
-    return null;
-  }
-}
-
-function parseCSV(csv) {
-  // Limpiar BOM, normalizar saltos de línea
-  const normalized = csv
-    .replace(/^\uFEFF/, '')         // quitar BOM
-    .replace(/\r\n/g, '\n')       // Windows
-    .replace(/\r/g, '\n');         // Mac clásico
-  const lines = normalized.trim().split('\n');
-  const headers = lines[0].split(',').map(h => h.replace(/\r/g,'').replace(/"/g,'').replace(/\uFEFF/g,'').trim());
-  console.log('📋 Headers limpios:', headers.slice(0,6));
-
-  console.log('📋 Encabezados detectados:', headers.slice(0,5));
-
-  return lines.slice(1).filter(line => {
-    const clean = line.replace(/,/g,'').trim();
-    return clean.length > 0;
-  }).map(line => {
-    // Mostrar línea cruda para debug
-    console.log('🔴 Línea cruda:', JSON.stringify(line.substring(0,80)));
-    // Parser simple: split por coma, respeta emojis
-    const values = line.split(',').map(v => v.replace(/^"|"$/g,'').replace(/\r/g,'').trim());
-
-    const row = {};
-    headers.forEach((h, i) => { if(h) row[h] = values[i] !== undefined ? values[i] : ''; });
-    
-    console.log('📦 Values[0..3]:', values[0], '|', values[1], '|', values[2]);
-    console.log('📦 Headers[0..3]:', headers[0], '|', headers[1], '|', headers[2]);
-    console.log('📦 Headers[0] charCode:', headers[0] ? headers[0].charCodeAt(0) : 'empty');
-    console.log('📦 Fila parseada - id:', row.id, '| cat:', row.cat, '| name:', row.name);
-    
-    return {
-      id: parseInt(row.id) || Math.random(),
+    console.log(`✅ ${data.length} negocios cargados desde Supabase`);
+    return data.map(row => ({
+      id: row.id,
       cat: row.cat || '',
       name: row.name || '',
       emoji: row.emoji || '🏪',
-      img: row.img_negocio || row.img || '',
+      img: row.img || '',
       prod1_img: row.prod1_img || '',
       prod2_img: row.prod2_img || '',
       prod3_img: row.prod3_img || '',
       prod4_img: row.prod4_img || '',
-      desc: row.desc || '',
+      desc: row.descripcion || '',
       price: row.price || '$',
       badge: row.badge || null,
       address: row.address || '',
       phone: row.phone || '',
       whatsapp: row.whatsapp || '',
+      email: row.email || '',
+      facebook: row.facebook || '',
+      instagram: row.instagram || '',
+      tiktok: row.tiktok || '',
+      slogan: row.slogan || '',
       hours: {
         Lun: row.hours_lun || '', Mar: row.hours_mar || '',
         Mié: row.hours_mie || '', Jue: row.hours_jue || '',
@@ -986,10 +929,14 @@ function parseCSV(csv) {
         row.prod3_name ? { emoji: row.prod3_emoji || '📦', name: row.prod3_name, price: row.prod3_price || '', img: row.prod3_img || '' } : null,
         row.prod4_name ? { emoji: row.prod4_emoji || '📦', name: row.prod4_name, price: row.prod4_price || '', img: row.prod4_img || '' } : null,
       ].filter(Boolean),
-      fullDesc: row.fullDesc || row.desc || '',
-      mapAddr: row.mapAddr || ''
-    };
-  });
+      fullDesc: row.full_desc || row.descripcion || '',
+      mapAddr: row.map_addr || ''
+    }));
+  } catch (err) {
+    showLoadingBanner(false);
+    console.warn('⚠️ Error cargando Supabase:', err.message);
+    return null;
+  }
 }
 
 function showLoadingBanner(show) {
@@ -998,7 +945,7 @@ function showLoadingBanner(show) {
     banner = document.createElement('div');
     banner.id = 'sheets-loading';
     banner.style.cssText = 'position:fixed;top:64px;left:0;right:0;background:var(--gold);color:var(--dark);text-align:center;padding:8px;font-size:0.82rem;font-weight:700;z-index:200;letter-spacing:0.06em;';
-    banner.textContent = '🔄 Actualizando directorio desde Google Sheets...';
+    banner.textContent = '🔄 Cargando directorio...';
     document.body.appendChild(banner);
   }
   banner.style.display = show ? 'block' : 'none';
@@ -1253,10 +1200,9 @@ function selectCategory(catId) {
 function filterAndGo(catId) {
   activeCategory = catId;
   showPage('categories');
-  // Si los negocios aún no han cargado desde Sheets, esperar
   if (businesses.length === 0) {
-    loadFromSheets().then(sheetsData => {
-      if (sheetsData && sheetsData.length > 0) businesses = sheetsData;
+    loadFromSupabase().then(data => {
+      if (data && data.length > 0) businesses = data;
       renderCategories();
     });
   }
@@ -1438,17 +1384,13 @@ function submitForm() {
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('main-footer').style.display = 'block';
   // Cargar desde Google Sheets si está configurado
-  loadFromSheets().then(sheetsData => {
-    if (sheetsData && sheetsData.length > 0) {
-      businesses = sheetsData;
+  loadFromSupabase().then(data => {
+    if (data && data.length > 0) {
+      businesses = data;
       const statEl = document.querySelector('.hero-stat strong');
-      if (statEl) statEl.textContent = sheetsData.length + '+';
-      // Si ya estamos en la página de categorías, re-renderizar con datos nuevos
+      if (statEl) statEl.textContent = data.length + '+';
       const catPage = document.getElementById('page-categories');
-      if (catPage && catPage.classList.contains('active')) {
-        renderCategories();
-      }
-      // Si hay una categoría activa pendiente, cargarla
+      if (catPage && catPage.classList.contains('active')) renderCategories();
       if (activeCategory) renderCategories();
     }
   });

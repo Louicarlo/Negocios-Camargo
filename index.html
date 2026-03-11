@@ -343,6 +343,38 @@ nav {
 }
 .city-popup-all:hover { color: rgba(255,255,255,0.6); }
 
+/* ── BACK BUTTON FLOTANTE ── */
+#floating-back {
+  position: fixed;
+  bottom: 32px;
+  left: 24px;
+  z-index: 500;
+  background: rgba(10,7,2,0.55);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  pointer-events: none;
+}
+#floating-back.visible {
+  opacity: 0.55;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+#floating-back:hover {
+  opacity: 0.9;
+  background: rgba(10,7,2,0.75);
+}
+
 /* ── CITY INDICATOR en navbar ── */
 .nav-city {
   display: flex; align-items: center; gap: 6px;
@@ -366,10 +398,10 @@ nav {
   margin: 0 auto;
 }
 .city-filter-btn {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.6);
-  padding: 6px 16px;
+  background: transparent;
+  border: 1px solid rgba(0,0,0,0.12);
+  color: rgba(0,0,0,0.45);
+  padding: 6px 18px;
   border-radius: 50px;
   font-family: var(--font-body);
   font-size: 0.8rem;
@@ -377,7 +409,7 @@ nav {
   cursor: pointer;
   transition: all 0.2s;
 }
-.city-filter-btn:hover { border-color: var(--gold); color: var(--gold); }
+.city-filter-btn:hover { border-color: var(--gold); color: var(--gold-dark, #b8860b); }
 .city-filter-btn.active {
   background: var(--gold);
   border-color: var(--gold);
@@ -1009,6 +1041,11 @@ footer {
   </div>
 </div>
 
+<!-- FLOATING BACK BUTTON -->
+<button id="floating-back" onclick="goBack()">
+  ← Regresar
+</button>
+
 <nav>
   <div class="nav-logo" onclick="showPage('home')">Negocios<span>Chihuahua</span></div>
   <div class="nav-links">
@@ -1106,12 +1143,12 @@ footer {
     <div class="divider" style="margin-top:40px;"></div>
 
   <!-- CITY FILTER BAR -->
-  <div style="background:var(--dark2); padding:16px 0 4px;">
+  <div style="background:var(--bg); padding:20px 0 0;">
     <div class="city-filter-bar" id="city-filter-bar">
-      <button class="city-filter-btn active" onclick="filterByCity('todas')">🗺️ Todas</button>
-      <button class="city-filter-btn" onclick="filterByCity('Cd. Camargo')">🏜️ Camargo</button>
-      <button class="city-filter-btn" onclick="filterByCity('Cd. Chihuahua')">🏙️ Chihuahua</button>
-      <button class="city-filter-btn" onclick="filterByCity('Delicias')">🌾 Delicias</button>
+      <button class="city-filter-btn active" onclick="filterByCity('todas')">Todas</button>
+      <button class="city-filter-btn" onclick="filterByCity('Cd. Camargo')">Camargo</button>
+      <button class="city-filter-btn" onclick="filterByCity('Cd. Chihuahua')">Chihuahua</button>
+      <button class="city-filter-btn" onclick="filterByCity('Delicias')">Delicias</button>
     </div>
   </div>
 
@@ -1543,11 +1580,17 @@ let activeCategory = null;
 let currentBizId   = null;
 
 // ── NAV ──────────────────────────────────────
-function showPage(page) {
+function showPage(page, isBack = false) {
+  if (!isBack) {
+    const current = pageHistory[pageHistory.length - 1];
+    if (current !== page) pageHistory.push(page);
+  }
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   document.getElementById('main-footer').style.display = 'block';
   window.scrollTo(0,0);
+  const btn = document.getElementById('floating-back');
+  if (btn && page === 'home') btn.classList.remove('visible');
   if (page === 'categories') renderCategories();
 }
 
@@ -1788,6 +1831,40 @@ function submitForm() {
 
 // ── INIT ──────────────────────────────────────
 // move footer into home page at bottom
+// ── FLOATING BACK BUTTON ──────────────────────────────────────
+let lastScrollY = 0;
+let pageHistory = ['home'];
+
+function goBack() {
+  pageHistory.pop(); // quitar página actual
+  const prev = pageHistory[pageHistory.length - 1] || 'home';
+  pageHistory.push(prev); // no doble pop en siguiente click
+  showPage(prev, true); // true = es navegación de back
+}
+
+// Scroll listener para mostrar/ocultar botón back
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('floating-back');
+  const currentY = window.scrollY;
+  const onHome = document.getElementById('page-home')?.classList.contains('active');
+  
+  if (!btn) return;
+  
+  // Mostrar si bajamos más de 120px y no estamos en home
+  if (currentY > 120 && !onHome) {
+    btn.classList.add('visible');
+  } else {
+    btn.classList.remove('visible');
+  }
+  
+  // Ocultar si scrolleamos hacia arriba
+  if (currentY < lastScrollY) {
+    btn.classList.remove('visible');
+  }
+  
+  lastScrollY = currentY;
+}, { passive: true });
+
 // ── CITY SELECTOR ──────────────────────────────────────
 const CIUDADES = ['Cd. Camargo', 'Cd. Chihuahua', 'Delicias'];
 let selectedCity = 'todas';

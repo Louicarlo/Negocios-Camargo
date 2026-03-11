@@ -174,9 +174,10 @@ nav {
 .hero-btn:hover svg { transform: translateX(4px); }
 
 .hero-stats {
-  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 40px; z-index: 1;
+  display: flex; gap: 40px; z-index: 2;
+  margin-top: 32px;
   animation: fadeUp 0.8s 0.3s ease both; opacity: 0;
+  justify-content: center;
 }
 .hero-stat { text-align: center; }
 .hero-stat strong {
@@ -845,11 +846,6 @@ footer {
     <div class="hero-bg"></div>
     <div class="hero-overlay"></div>
     <div class="hero-pattern"></div>
-    <div class="hero-stats">
-      <div class="hero-stat"><strong>50+</strong><span>Negocios</span></div>
-      <div class="hero-stat"><strong>6</strong><span>Categorías</span></div>
-      <div class="hero-stat"><strong>80K</strong><span>Turistas/año</span></div>
-    </div>
     <div class="hero-content">
       <span class="hero-eyebrow">📍 Cd. Camargo, Chihuahua</span>
       <h1>Negocios<br><span>Camargo</span></h1>
@@ -865,6 +861,11 @@ footer {
           <input type="text" id="hero-search" placeholder="Busca un negocio o categoría..." onkeydown="if(event.key==='Enter') doSearch()">
           <button class="search-bar-btn" onclick="doSearch()">Buscar</button>
         </div>
+      </div>
+      <div class="hero-stats" style="position:static;transform:none;margin-top:28px;">
+        <div class="hero-stat"><strong class="hero-stat strong">4+</strong><span>Negocios</span></div>
+        <div class="hero-stat"><strong>6</strong><span>Categorías</span></div>
+        <div class="hero-stat"><strong>80K</strong><span>Turistas/año</span></div>
       </div>
     </div>
   </section>
